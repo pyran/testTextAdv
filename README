@@ -1,3 +1,15 @@
 testTextAdv
 
-A small text adventure game created in python3 that will lay the foundation for a larger future game.
+A small text adventure game created in python3 that will lay the foundation for a larger future game.  I am using Nicholas M's tutorial as a basis for the game.
+
+http://www.bluzeandmuse.com/final_site/how_to.html
+
+5/14/14
+Can move around the world, but still need to work on:
+-inventory,
+-items,
+-examining permanant and takable items
+-combining items to form new items
+-special moves
+-maybe dying
+-save and restore feature
