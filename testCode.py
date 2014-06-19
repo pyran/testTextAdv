@@ -26,10 +26,11 @@ class TkItem:
 
 class PermItem:
     """"Items that are permanent and can't be taken."""
-    def __init__(self, shortDesc, longDesc, firstDesc):
+    def __init__(self, shortDesc, longDesc, firstDesc, takeDesc):
         self.shortDesc = shortDesc
         self.longDesc = longDesc
         self.firstDesc = firstDesc
+        self.take = takeDesc
 
 # class NPC:
 #     """Non-player character. How should I do dialogue?"""
@@ -59,16 +60,20 @@ As you wonder who decided to commit this environmental atrocity, the wind shifts
 and you get a lung full of the toxic fumes. Practically choking to death, you
 drop to the sand, curl into the fetal position and cough for a solid 5 minutes.
 You wipe the tears from your face, stand back up, and take a few minutes to
-compose yourself.  Fuck..."""  # First
+compose yourself.  Fuck...""",  # First
+
+"""WHAT? Are you crazy? What am I going to do with a burning tire?"""
 )
 
 sand = PermItem(
 'sand',  # short description
-"Small grains of sand. It's everywhere and not very useful right now.",  # Long
+"Small grains of sand. It's everywhere.",  # Long
 
 """Sand. Billions and billions of tiny granular material that humanity has used
 to construct glass, computer chips, and double D breasts.  It's great, but you
-don't need to concern yourself with double D's right now."""  # First
+don't need to concern yourself with double D's right now.""",  # First
+
+"""Sand is great, but you don't need any."""
 )
 
 water = PermItem(
@@ -76,7 +81,10 @@ water = PermItem(
 "It's sea water.",  # Long
 
 """You look at the dark sea water and step into the shallow water. The wet
-sand seeps between your toes. It's rather soothing here."""  # First
+sand seeps between your toes. It's rather soothing here.""",  # First
+
+"""There is plenty of it. You can comeback here and enjoy it any time"""
+
 )
 
 # List of all the items to be put into the location object
@@ -103,15 +111,120 @@ beachTkItems, beachPermItems
 outBungalowPermItems = []
 outBungalowTkItems = []
 
-outBungalow = Location(
+outBungalowLoc = Location(
 "In front of a bungalow.",
 
-"""You are standing in front of an old dilapidated bungalow.""",
+"""You are standing in front of an old dilapidated bungalow. The thatch roof has
+caved in a bit, but it is still standing. The door is open and barely hanging
+off of one hinge. Looks safe enough to enter.""",
 
-"""The thatch roof has caved in a bit, but it is still standing. The door is
-open and barely hanging off of one hinge."""
+"""You are standing in front of an old dilapidated bungalow. The thatch roof has
+caved in a bit, but it is still standing. The door is open and barely hanging
+off of one hinge. Looks safe enough to enter.""",
 
+outBungalowTkItems, outBungalowPermItems
 )
+
+# Inside the Bungalow
+
+pillow = PermItem(
+"A pillow",
+
+"""The pillow lies naked on the foot of the bed. It looks damp and covered
+with black mold.""",
+
+"""The pillow lies naked on the foot of the bed. It looks damp and covered
+with black mold.  Your nose begins to run just getting close to it.
+
+You begin to ponder what terrible atrocities the pillow's cover must have
+been subjected to. Did someone used it as a substitute for toilet paper?
+Maybe it became an improvised gag? Or a make-shift contraceptive?
+Where is it now?! You had to know! Well... sort of.""",
+
+"""You might be allergic to black mold. I think we all are. Lets leave it
+where it is.  Besides, after seeing that bed, who knows what fluids it has been
+soaked in."""
+)
+
+bed = PermItem(
+"A bed",
+
+"""The bed has seen some better days. As you inspect the mattress, you
+notice it has taken on a yellow and brown hue.  There are a few few crusty
+looking spots.  It must have been a popular teenage hangout. You spot a
+pillow near the foot of the bed.""",
+
+"""The bed has seen some better days. As you inspect the mattress, you
+notice it has taken on a yellow and brown hue.  There are a few few crusty
+looking spots.  It must have been a popular teenage hangout. You spot a
+pillow near the foot of the bed.""",
+
+"""...the crust..."""
+)
+
+counter = PermItem(
+"A counter",
+
+"""A greasy kitchen counter. There is a stove embedded in the middle and a
+small bucket standing on its right.""",
+
+"""It's a kitchen counter.  You notice it is slick to the touch. It also
+has some signs of water damage. There is a stove embedded in the middle and a
+small bucket standing on its right.""",
+
+"""You'd probably need a small crane to lift this."""
+)
+
+lard = PermItem(
+"A bucket of lard",
+
+"""The bucket is filled to the brim with lard. It has slowly bubbling over
+from the heat.  It looks to be a popular destination for insects looking to
+drown.""",
+
+"""You spot a brown wooden bucket. It is overflowing with a thick, cream colored
+liquid. Probably lard. It's bubbling over at the top.  Fruit-flies hover above
+the substance, and can't seem to stop themselves from dying in it.""",
+
+"""It's probably best left here. There is no handle, and it smells atrocious."""
+)
+
+stove = PermItem(
+"A stove",
+
+"""The stove is slick with grease and studded with charred bits of meat. You try
+to turn it on, but there is no spark or any propane.""",
+
+"""The stove is slick with grease and studded with charred bits of meat. You try
+to turn it on, but there is no spark or any propane.""",
+
+"""It's a part of the counter. It's also pretty useless."""
+)
+
+net = TkItem(
+"A mosquito net",
+
+"""An old mosquito net.  DAMN they be lots of holes.""",
+
+"""You see an old mosquito net hanging over the bed.  It's got a lot of holes
+in it."""
+)
+
+inBungalowPermItems = [pillow, bed, counter, lard, stove]
+inBungalowTkItems = [net]
+
+inBungalowLoc = Location(
+"Inside a one room bungalow.",
+
+"""You are inside the bungalow. There is an old bed under a mosquito net to
+your right and a small table on your left.""",
+
+"""You are inside the bungalow. There is an old bed under a mosquito net to
+your right and a small table on your left.""",
+
+inBungalowTkItems, inBungalowPermItems
+)
+
 ##################################
 ### Item and Location Synonyms ###
 ##################################
@@ -121,40 +234,40 @@ open and barely hanging off of one hinge."""
 obj_synonyms = {
     # objects that can be taken
     # 'stick': 0, 'sticks': 0, 'branch': 0, 'wood': 0, 'drift-wood': 0,
-    # 'mosquito': 1, 'net': 1,
+    'mosquito': 1, 'net': 1,
     # 'wrapped-stick': 2,
     # 'torch': 3,
     # 'lit-torch': 4,
 
     # permanent objects
     'bonfire': -1, 'fire': -1, 'flame': -1,
-    # 'bed': -2, 'mattress': -2,
-    # 'pillow': -3, 'cushion': -3,
+    'bed': -2, 'mattress': -2,
+    'pillow': -3, 'cushion': -3,
     # 'rocks': -4, 'boulders': -4,
     'sand': -5,
-    # 'counter': -6, 'table': -6,
-    # 'stove': -7,
-    # 'lard': -8, 'bucket': -8, 'container': -8, 'fat': -8, 'oil': -8, 'tub': -8,
+    'counter': -6, 'table': -6,
+    'stove': -7,
+    'lard': -8, 'bucket': -8, 'container': -8, 'fat': -8, 'oil': -8, 'tub': -8,
     'water': -9, 'ocean': -9, 'sea': -9, 'salt': -9
 }
 
 obj_keys = {
     # objects that can be taken
-    # 0: 'stick',
-    # 1: 'net',
-    # 2: 'wrapped-stick',
-    # 3: 'torch',
-    # 4: 'lit-torch',
+    # 0: stick,
+    1: net,
+    # 2: wrapped-stick,
+    # 3: torch,
+    # 4: lit-torch,
 
     # perminant objects
     -1: bonfire,
-    # -2: 'bed',
-    # -3: 'pillow': -3,
-    # -4: 'rocks': -4,
+    -2: bed,
+    -3: pillow,
+    # -4: rocks,
     -5: sand,
-    # -6: 'counter'
-    # -7: 'stove': -7,
-    # -8: 'lard'
+    -6: counter,
+    -7: stove,
+    -8: lard,
     -9: water
 }
 
@@ -186,9 +299,7 @@ dungeon_map = [
 
 # A This will help tie in the
 # dungeon map values with the location objects during movement
-dungeon_locs = [beachLoc,
-                # outBungalowLoc,
-                # inBungalowLoc,
+dungeon_locs = [beachLoc, outBungalowLoc, inBungalowLoc,
                 # rockWallLoc,
                 # darkCaveLoc
 ]
@@ -196,15 +307,11 @@ dungeon_locs = [beachLoc,
 # A list that stores all the areas that have been visited
 visited = []
 
-def describe_loc(loc):
+def describe_loc(locNum):
     global visited
+    loc = dungeon_locs[locNum]
     if loc not in visited:
         print(loc.firstDesc + '\n')
-        print("From here you can see ", end='')
-        listLen = len(loc.permItems)
-        for i in range(listLen-1):
-            print(loc.permItems[i].shortDesc + ', ', end='')
-        print('and '+loc.permItems[listLen-1].shortDesc+'.')
         visited.append(loc)
     else:
         print(loc.longDesc)
@@ -248,9 +355,8 @@ def inven(arg):
 
 # Function to examine items and location
 def examine(args):  # examine = look
-    curr = dungeon_locs[current_loc]
     if not args:
-        describe_loc(curr)  # first or long description
+        describe_loc(current_loc)  # first or long description
     else:
         if args[0] not in obj_synonyms:
             print("I don't know what that is.")
@@ -267,15 +373,15 @@ def examine(args):  # examine = look
             #     print(item.longDesc)
 
 def move(direct):
-    global current_section
-    newsect = dungeon_map[current_section][direct]
+    global current_loc
+    newsect = dungeon_map[current_loc][direct]
     if newsect == -1:
         print("You can't go that way.")
         # elif newsect == SPECIALNUMBER:
         #special_move(direct)
     else:
-        current_section = newsect
-        describe_loc(newsect)
+        current_loc = newsect
+        describe_loc(current_loc)
 
 
 def north(args):
@@ -356,10 +462,10 @@ verblist = {
 }
 
 
-HEADING =
+HEADING =(
 """You open your eyes and see a full moon above. It's dark out and you've been
 laying on the beach for hours. Propping yourself up, your hands sink into the
-soft warm sand."""
+soft warm sand.""")
 
 
 
