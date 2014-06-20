@@ -18,10 +18,11 @@ class Location:
 
 class TkItem:
     """"Items you can take in the game."""
-    def __init__(self, shortDesc, longDesc, firstDesc):
+    def __init__(self, shortDesc, longDesc, firstDesc, takeDesc):
         self.shortDesc = shortDesc
         self.longDesc = longDesc
         self.firstDesc = firstDesc
+        self.takeDesc = takeDesc
 
 
 class PermItem:
@@ -30,7 +31,7 @@ class PermItem:
         self.shortDesc = shortDesc
         self.longDesc = longDesc
         self.firstDesc = firstDesc
-        self.take = takeDesc
+        self.takeDesc = takeDesc
 
 # class NPC:
 #     """Non-player character. How should I do dialogue?"""
@@ -62,7 +63,7 @@ drop to the sand, curl into the fetal position and cough for a solid 5 minutes.
 You wipe the tears from your face, stand back up, and take a few minutes to
 compose yourself.  Fuck...""",  # First
 
-"""WHAT? Are you crazy? What am I going to do with a burning tire?"""
+"""WHAT? Are you crazy? I'll leave the bonfire where it is."""
 )
 
 sand = PermItem(
@@ -95,12 +96,12 @@ beachTkItems = []
 # items, and permanent items)
 beachLoc = Location("Shoreline",
 """You are on the beach facing the shoreline. Along the beach, there is a bright
-bonfire to your left. You can see a small bungalow to the Southwest and a rock
-wall to the Southeast.""",
+bonfire to your left. You can see a small bungalow to the Southwest and a cliff
+side to the Southeast.""",
 
 """You are on the beach facing the shoreline. Along the beach, there is a bright
-bonfire to your left. You can see a small bungalow to the Southwest and a rock
-wall to the Southeast.""",
+bonfire to your left. You can see a small bungalow to the Southwest and a cliff
+side to the Southeast.""",
 
 beachTkItems, beachPermItems
 )
@@ -116,7 +117,8 @@ outBungalowLoc = Location(
 
 """You are standing in front of an old dilapidated bungalow. The thatch roof has
 caved in a bit, but it is still standing. The door is open and barely hanging
-off of one hinge. Looks safe enough to enter.""",
+off of one hinge. Looks safe enough to enter. You see the beach to the North
+and a rock wall to the East.""",
 
 """You are standing in front of an old dilapidated bungalow. The thatch roof has
 caved in a bit, but it is still standing. The door is open and barely hanging
@@ -128,7 +130,7 @@ outBungalowTkItems, outBungalowPermItems
 # Inside the Bungalow
 
 pillow = PermItem(
-"A pillow",
+"a pillow",
 
 """The pillow lies naked on the foot of the bed. It looks damp and covered
 with black mold.""",
@@ -147,7 +149,7 @@ soaked in."""
 )
 
 bed = PermItem(
-"A bed",
+"a bed",
 
 """The bed has seen some better days. As you inspect the mattress, you
 notice it has taken on a yellow and brown hue.  There are a few few crusty
@@ -163,7 +165,7 @@ pillow near the foot of the bed.""",
 )
 
 counter = PermItem(
-"A counter",
+"a counter",
 
 """A greasy kitchen counter. There is a stove embedded in the middle and a
 small bucket standing on its right.""",
@@ -176,7 +178,7 @@ small bucket standing on its right.""",
 )
 
 lard = PermItem(
-"A bucket of lard",
+"a bucket of lard",
 
 """The bucket is filled to the brim with lard. It has slowly bubbling over
 from the heat.  It looks to be a popular destination for insects looking to
@@ -190,7 +192,7 @@ the substance, and can't seem to stop themselves from dying in it.""",
 )
 
 stove = PermItem(
-"A stove",
+"a stove",
 
 """The stove is slick with grease and studded with charred bits of meat. You try
 to turn it on, but there is no spark or any propane.""",
@@ -202,22 +204,25 @@ to turn it on, but there is no spark or any propane.""",
 )
 
 net = TkItem(
-"A mosquito net",
+"a mosquito net",
 
 """An old mosquito net.  DAMN they be lots of holes.""",
 
 """You see an old mosquito net hanging over the bed.  It's got a lot of holes
-in it."""
+in it.""",
+
+"""You rip some of the mosquito net down and shove it down your pants. For
+safe-keeping."""
 )
 
 inBungalowPermItems = [pillow, bed, counter, lard, stove]
 inBungalowTkItems = [net]
 
 inBungalowLoc = Location(
-"Inside a one room bungalow.",
+"inside the bungalow.",
 
 """You are inside the bungalow. There is an old bed under a mosquito net to
-your right and a small table on your left.""",
+your right and a small table on your left. You can see the exit behind you.""",
 
 """You are inside the bungalow. There is an old bed under a mosquito net to
 your right and a small table on your left.""",
@@ -225,37 +230,146 @@ your right and a small table on your left.""",
 inBungalowTkItems, inBungalowPermItems
 )
 
-##################################
-### Item and Location Synonyms ###
-##################################
+# Rock wall
+
+rocks = PermItem(
+"a pile of rocks",
+
+"""They are just rocks. C'mon. I just put them here to bother you. I'm trying to
+be clever and meta.""",
+
+"""These rocks look just like the ones back at home: smooth, round and would fit
+nicely in a sack.  Although, it's no time to be playing these rocks right now.
+You can play with them when you get home.""",
+
+"""You try to pick up a few rocks, but realize you already have a small pair
+lying unused in your sack. You should probably use them first."""
+)
+
+opening = PermItem(
+"a cave opening",
+
+"""You might be able to fit in there, but its way too dark to see anything.""",
+
+"""Sweet cave bro.""",
+
+"""You can't take a cave entrance, what the fuck?"""
+)
+
+stick = TkItem(
+"a stick",
+
+"""It's a fresh wooden stick.  Its the only interactive phallic item in the
+game!""",
+
+"""A huge gnarled stick. Looks like the optimal girth for your hands.""",
+
+"""You reach down and pick up this gnarled stick.  Still impressed with the
+girth of this enormous stick, you strap it to your side by the band of your
+tightie whities."""
+)
+
+cliffSideTkItems = [stick]
+cliffSidePermItems = [rocks, opening]
+
+cliffSideLoc = Location(
+"A cliff side",
+
+"""A huge cliff side stands before you. It's much too steep to climb, but you
+see an opening among the cracks large enough that you could fit through.
+You can see the shoreline to the North and a bungalow to the East.""",
+
+"""A huge cliff side stands before you. It's much too steep to climb. It's
+likely an artificial wall the developer put up to stop you from going farther
+south.
+
+Although, you do see an opening among the cracks large enough that you
+could fit through.""",
+
+cliffSideTkItems, cliffSidePermItems
+
+)
+
+darkCaveLoc = Location(
+"A cave",
+
+"""You are in a cave. CONGRATULATIONS. You beat the game. Pat yourself on the"
+back.  Seriously, thanks for playing my first game. It was crappy, now I should
+go make a better one.""",
+
+"""You are in a cave. CONGRATULATIONS. You beat the game. Pat yourself on the"
+back.  Seriously, thanks for playing my first game. It was crappy, now I should
+go make a better one.""",
+
+None, None
+)
+
+wrappedStick = TkItem(
+"a wrapped stick",
+
+"""It's the gnarled stick you wrapped with the mosquito net. Kinda looks like a
+giant...""",
+
+"""It's the gnarled stick you wrapped with the mosquito net on one tip. Kinda
+looks like a giant...""",
+
+"""You already have it strapped to your loins."""
+)
+
+torch = TkItem(
+"a torch",
+
+"""It's a makeshift torch composed of a stick, mosquito net and lard.""",
+
+"""It's the product of your genius! A homemade torch made of mosquito net, and
+a stick.  Then the tip was double-dipped in lard. This should stay lit for a
+while.""",
+
+"""You already have it. The lard from your homemade torch is soaking through
+your boxers."""
+)
+
+litTorch = TkItem(
+"a lit torch",
+
+"""Your torch is fucking on fire.""",
+
+"""Your torch is fucking on fire. Just like your penis when you pee.""",
+
+"""You already have it. It's burning a hole in your jock strap."""
+)
+##########################################
+### Item Indexes and Location Synonyms ###
+#########################################
 
 
 # A dictionary of all objects in the game.  This will help with synonyms
 obj_synonyms = {
     # objects that can be taken
-    # 'stick': 0, 'sticks': 0, 'branch': 0, 'wood': 0, 'drift-wood': 0,
+    'stick': 0, 'sticks': 0, 'branch': 0, 'wood': 0, 'drift-wood': 0,
     'mosquito': 1, 'net': 1,
-    # 'wrapped-stick': 2,
-    # 'torch': 3,
-    # 'lit-torch': 4,
+    'wrapped-stick': 2, 'wrapped':2,
+    'torch': 3,
+    'lit-torch': 4,
 
     # permanent objects
     'bonfire': -1, 'fire': -1, 'flame': -1,
     'bed': -2, 'mattress': -2,
     'pillow': -3, 'cushion': -3,
-    # 'rocks': -4, 'boulders': -4,
-    'sand': -5,
+    'rocks': -4, 'rock':-4, 'boulders': -4,
+    'sand': -5, 'grains': -5,
     'counter': -6, 'table': -6,
-    'stove': -7,
+    'stove': -7, 'oven': -7,
     'lard': -8, 'bucket': -8, 'container': -8, 'fat': -8, 'oil': -8, 'tub': -8,
-    'water': -9, 'ocean': -9, 'sea': -9, 'salt': -9
+    'water': -9, 'ocean': -9, 'sea': -9, 'salt': -9,
+    'opening': -10, 'cave': -10, 'crack': -10, 'entrance':-10
 }
 
 obj_keys = {
     # objects that can be taken
-    # 0: stick,
+    0: stick,
     1: net,
-    # 2: wrapped-stick,
+    # 2: wrappedStick,
     # 3: torch,
     # 4: lit-torch,
 
@@ -263,12 +377,13 @@ obj_keys = {
     -1: bonfire,
     -2: bed,
     -3: pillow,
-    # -4: rocks,
+    -4: rocks,
     -5: sand,
     -6: counter,
     -7: stove,
     -8: lard,
-    -9: water
+    -9: water,
+    -10: opening
 }
 
 ################################################
@@ -291,18 +406,16 @@ current_loc = 0
 dungeon_map = [
     # n,  s,  e,  w,  ne, nw, se, sw, up, dn, in, out
     [-1, -1, -1,  -1, -1, -1,  3,  1, -1, -1, -1, -1],  # 0, beachLoc
-    [ 0, -1, -1,   3,  0,  0, -1, -1, -1, -1,  2, -1],  # 1, outBungalowLoc
+    [ 0, -1,  3,  -1,  0,  0, -1, -1, -1, -1,  2, -1],  # 1, outBungalowLoc
     [-1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,  1],  # 2, inBungalowLoc
-    [ 0, -1, -1,   1,  0,  0, -1, -1, -1, -1, -1, -1],  # 3, rockWallLoc
+    [ 0, -1, -1,   1,  0,  0, -1, -1, -1, -1, -2, -1],  # 3, cliffside
     [-1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,  3],  # 4, darkCaveLoc
 ]
 
 # A This will help tie in the
 # dungeon map values with the location objects during movement
-dungeon_locs = [beachLoc, outBungalowLoc, inBungalowLoc,
-                # rockWallLoc,
-                # darkCaveLoc
-]
+dungeon_locs = [beachLoc, outBungalowLoc, inBungalowLoc, cliffSideLoc,
+                darkCaveLoc]
 
 # A list that stores all the areas that have been visited
 visited = []
@@ -311,74 +424,164 @@ def describe_loc(locNum):
     global visited
     loc = dungeon_locs[locNum]
     if loc not in visited:
-        print(loc.firstDesc + '\n')
+        print(loc.firstDesc, end='')
         visited.append(loc)
+        tkLen = len(loc.tkItems)
+        if tkLen > 0:
+            print(" You also see ", end='')
+            if tkLen > 1:
+                for i in range(tkLen-1):
+                    print(loc.tkItems[i].shortDesc + ', ', end='')
+            else:
+                print(loc.tkItems[0].shortDesc + '.')
     else:
         print(loc.longDesc)
 
 # List of inventory objects and if we seen it
-inventory_list = []
+inventory_list = [net, stick]
 seen_item = []
 
-def describe_item(item):
+# Function to describe an item. Also changes the description whether or not if
+# it is the first time the player has looked at the item.
+def describe_item(itemObj):
     global seen_item
-    if item not in seen_item:
-        print(item.firstDesc + '\n')
-        seen_item.append(item)
+    if itemObj not in seen_item:
+        print(itemObj.firstDesc + '\n')
+        seen_item.append(itemObj)
     else:
-        print(item.longDesc)
+        print(itemObj.longDesc)
 
-
-# Function to add a takable item object to the inventory and remove it from
-# location when a player decides to take an item.
-def add_inven(item):
-    curr = dungeon_locs(current_loc)
-    if item not in inventory_list:
-        inventory_list.append(item)
-        if item in curr.tkItems:
-            curr.tkItems.remove(item)
-
-# Function to remove an item from the inventory and place it in the location
-# when a player drops the item object
-def remove_inven(item):
-    curr = dungeon_locs(current_loc)
-    if item not in curr.tkItems:
-        curr.tkItems.append(item)
-        if item in inventory_list:
-            inventory_list.remove(item)
-
-# Function to look up inventory
-def inven(arg):
-    print("You are holding on to: ")
-    for i in len(inventory_list)-1:
-        print(i.longDesc)
 
 # Function to examine items and location
 def examine(args):  # examine = look
     if not args:
         describe_loc(current_loc)  # first or long description
     else:
+        # Check the player input with object synonym list to get its key
+        # number
+        objnum = obj_synonyms[args[0]]
+        # Now take the key, and look up the item object
+        itemObj = obj_keys[objnum]
+        curr = dungeon_locs[current_loc]
+        # Check and see if the item object is in the inventory or location
         if args[0] not in obj_synonyms:
             print("I don't know what that is.")
+        elif itemObj not in inventory_list and itemObj not in curr.tkItems and itemObj not in curr.permItems:
+            print("I don't see that here.")
         else:
-            # Check the player input with object synonym list to get its key
-            # number
-            objnum = obj_synonyms[args[0]]
-            # Now take the key, and look up our official name for the item
-            item = obj_keys[objnum]
-            describe_item(item)
-            # if item not in inventory_list and item not in curr.tkItems:
-            #     print("I don't see that here.")
-            # else:
-            #     print(item.longDesc)
+            describe_item(itemObj)
+
+# Function to add a takable item object to the inventory and remove it from
+# location when a player decides to take an item.
+def add_inven(itemObj):
+    global current_loc
+    curr = dungeon_locs[current_loc]
+    if itemObj not in inventory_list:
+        inventory_list.append(itemObj)
+        if itemObj in curr.tkItems:
+            curr.tkItems.remove(itemObj)
+
+# Function to remove an item from the inventory and place it in the location
+# when a player drops the item object
+def remove_inven(itemObj):
+    global current_loc
+    curr = dungeon_locs[current_loc]
+    if itemObj not in curr.tkItems:
+        curr.tkItems.append(itemObj)
+        if itemObj in inventory_list:
+            inventory_list.remove(itemObj)
+
+# Function to look up inventory
+def inven(args):
+    global inventory_list
+    print("You have: ")
+    invLen = len(inventory_list)
+    if invLen < 1:
+        print("nothing between your legs ... err ... in your inventory.")
+    else:
+        for i in range(invLen):
+            x = "{num}) ".format(num=i+1) + inventory_list[i].shortDesc
+            print(x)
+        print('All neatly tucked into your gorgeous white undies.')
+
+def take(args):
+    if not args:
+        print("You must specify an object.")
+    else:
+        global inventory_list, current_loc
+        invLen = len(inventory_list)
+        currTk = dungeon_locs[current_loc].tkItems
+        if args[0] == "all":
+            if len(currTk) < 1: #if the tkItems list in the loc has no objects
+                print("There is nothing to take")
+            else:
+                print("You shove ", end='')
+                if invLen == 1:
+                    add_inven(currTk[0])
+                    print(currTk[0] + 'into your tights.')
+                else:
+                    # All this code for punctuation.... worth it?
+                    for i in range(len(currTk)-1):
+                        add_inven(currTk[i])
+                        print(currTk[i].shortDesc + ', ', end='')
+                    add_inven(currTk[0])
+                    print(currTk[0] + 'into your tights.')
+
+        else:
+            if args[0] not in obj_synonyms:
+                print("I don't know what that is. Are you smoking?")
+            else:
+                takeobj(args[0])
+
+# If you take one by one...
+def takeobj(arg):
+    global inventory_list, current_loc
+    curr = dungeon_locs[current_loc]
+    itemKey = obj_synonyms[arg]
+    itemObj = obj_keys[itemKey]
+    if itemObj in inventory_list:
+        print("You already have that item tucked snuggly against your balls you dunce!")
+    elif itemObj not in curr.tkItems and itemObj not in curr.permItems:
+        print("I don't see that here, man.")
+    else:
+        # if you take a permanent object print the take description but don't
+        # modify the inventory
+        if itemObj in curr.permItems:
+            print(itemObj.takeDesc)
+        else:
+            print(itemObj.takeDesc)
+            add_inven(itemObj)
+
+# Combining items!
+#def combine(arg1, arg2)
+
+
+# def drop(args):
+#     global inventory, items
+#     if not args:
+#         print("You must specify an object.")
+#     else:
+#         if not args[0] in obj:
+#             print("I don't know what that is.")
+#         else:
+#             objnum = obj[args[0]]
+#             if not objnum in inventory:
+#                 print("You don't have that.")
+#             else:
+#                 print("Done.")
+#                 inventory.remove(objnum)
+#                 items[current_section].append(objnum)
 
 def move(direct):
     global current_loc
     newsect = dungeon_map[current_loc][direct]
     if newsect == -1:
         print("You can't go that way.")
-        # elif newsect == SPECIALNUMBER:
-        #special_move(direct)
+    elif newsect == -2:
+        if lit-torch not in inventory_list:
+            print("It's too fucking dark. You shouldn't go in there.")
+        else:
+            newsect = dungeon_map[current_loc][4]
     else:
         current_loc = newsect
         describe_loc(current_loc)
@@ -444,10 +647,10 @@ def go(args):
             move(dirs[args[0]])
 
 verblist = {
-    # 'take': take, 'get': take, 'pick': take, 'hold': take,
+    'take': take, 'get': take, 'pick': take, 'hold': take,
     # 'drop': drop, 'throw': drop, 'toss': drop,
-     'look': examine, 'l': examine, 'examine': examine, 'x': examine,
-    # 'read': examine, 'r': examine, 'describe': examine,
+    'look': examine, 'l': examine, 'examine': examine, 'x': examine,
+    'read': examine, 'r': examine, 'describe': examine,
     # can't use 'd' because of going down
      'inventory': inven, 'i': inven, 'items': inven, #'die': die, 'quit': _quit,
     #'help': _help, 'save': save, 'restore': restore, 'go': go,
@@ -490,15 +693,15 @@ def execprint(x):
 def run_game():
     print(HEADING)
     while True:
-        reply = input('>').lower().split(';') or ['']
+        reply = input('\n>').lower().split(';') or ['']
         first = True
         for i in reply:
             if not first:
-                print('>')
+                print('\n>')
             execprint(i)
             first = False
     if __name__ == '__main__':
-        input('\n<')
+        input('\n>')
 
 
 if __name__ == '__main__':
