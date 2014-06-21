@@ -2,6 +2,8 @@
 # more difficult to scale. I'm going to see if I can improve upon his design a
 # bit.  This is some experimental code that I am playing with.
 
+from random import choice as randomchoice
+
 #######################
 ####### Classes #######
 #######################
@@ -116,13 +118,13 @@ outBungalowLoc = Location(
 "In front of a bungalow.",
 
 """You are standing in front of an old dilapidated bungalow. The thatch roof has
-caved in a bit, but it is still standing. The door is open and barely hanging
-off of one hinge. Looks safe enough to enter. You see the beach to the North
-and a rock wall to the East.""",
+caved in a bit, but it is still standing. Looks safe enough to enter. You see
+the cliff side to the East and the beach to the North.""",
 
 """You are standing in front of an old dilapidated bungalow. The thatch roof has
-caved in a bit, but it is still standing. The door is open and barely hanging
-off of one hinge. Looks safe enough to enter.""",
+caved in a bit, but it is still standing. The door is long gone. It looks safe
+enough to enter. You see the beach to the North and a cliff side to the East.
+""",
 
 outBungalowTkItems, outBungalowPermItems
 )
@@ -221,11 +223,11 @@ inBungalowTkItems = [net]
 inBungalowLoc = Location(
 "inside the bungalow.",
 
-"""You are inside the bungalow. There is an old bed under a mosquito net to
-your right and a small table on your left. You can see the exit behind you.""",
+"""You are inside the bungalow. There is an old bed to your right and a counter
+on your left. You can see the exit behind you.""",
 
-"""You are inside the bungalow. There is an old bed under a mosquito net to
-your right and a small table on your left.""",
+"""You are inside the bungalow. There is an old bed to your right and a counter
+to your left.""",
 
 inBungalowTkItems, inBungalowPermItems
 )
@@ -251,9 +253,11 @@ opening = PermItem(
 
 """You might be able to fit in there, but its way too dark to see anything.""",
 
-"""Sweet cave bro.""",
+"""The opening is very small. You shout inside and hear an echo.  Must be a
+cave of some sort. You think you could fit through the hole, but it's too risky
+to be squeezing yourself through dark spots.""",
 
-"""You can't take a cave entrance, what the fuck?"""
+"""You can't take the opening, what the fuck?"""
 )
 
 stick = TkItem(
@@ -264,7 +268,7 @@ game!""",
 
 """A huge gnarled stick. Looks like the optimal girth for your hands.""",
 
-"""You reach down and pick up this gnarled stick.  Still impressed with the
+"""You reach down and pick up this gnarled stick.  Impressed with the
 girth of this enormous stick, you strap it to your side by the band of your
 tightie whities."""
 )
@@ -273,45 +277,50 @@ cliffSideTkItems = [stick]
 cliffSidePermItems = [rocks, opening]
 
 cliffSideLoc = Location(
-"A cliff side",
+"a cliff side",
 
 """A huge cliff side stands before you. It's much too steep to climb, but you
 see an opening among the cracks large enough that you could fit through.
-You can see the shoreline to the North and a bungalow to the East.""",
+You can see the shoreline to the North and a bungalow to the West.""",
 
-"""A huge cliff side stands before you. It's much too steep to climb. It's
-likely an artificial wall the developer put up to stop you from going farther
-south.
+"""A huge cliff side stands before you. It's much too steep to climb and seems
+to extend all the way to the bungalow preventing you from going further South.
 
-Although, you do see an opening among the cracks large enough that you
-could fit through.""",
+Although, you do see an small opening among the cracks. There are some rocks
+laying at the base of the cliff.""",
 
 cliffSideTkItems, cliffSidePermItems
 
 )
+darkCaveTkItems =[]
+darkCavePermItems = []
 
 darkCaveLoc = Location(
-"A cave",
+"a cave",
 
-"""You are in a cave. CONGRATULATIONS. You beat the game. Pat yourself on the"
-back.  Seriously, thanks for playing my first game. It was crappy, now I should
-go make a better one.""",
+"""It looks like the cave is pretty deep.  But too bad the developer of this
+game was too lazy to continue. Game Over.
 
-"""You are in a cave. CONGRATULATIONS. You beat the game. Pat yourself on the"
-back.  Seriously, thanks for playing my first game. It was crappy, now I should
-go make a better one.""",
+You can quit by typing 'quit'""",
 
-None, None
+"""CONGRATULATIONS. You are got in the cave. You beat the game. Pat yourself on
+the back.  Seriously, thanks for playing my first game. It was a demo so.. yeah.
+It was a crappy, ending to a very crappy game. Sorry for wasting your time. I'll
+go make a better one.
+
+You can quit the game by typing 'quit'""",
+
+darkCaveTkItems, darkCavePermItems
 )
 
 wrappedStick = TkItem(
-"a wrapped stick",
+"a wrapped-stick",
 
-"""It's the gnarled stick you wrapped with the mosquito net. Kinda looks like a
-giant...""",
+"""It's the gnarled stick you wrapped with the mosquito net.  It looks almost
+like a torch. Although, it's not quite there. It would burn out pretty fast.""",
 
-"""It's the gnarled stick you wrapped with the mosquito net on one tip. Kinda
-looks like a giant...""",
+"""You wrap your stick with the mosquito net. Right on one tip. Kinda looks like
+a giant... wrapped-stick""",
 
 """You already have it strapped to your loins."""
 )
@@ -321,23 +330,25 @@ torch = TkItem(
 
 """It's a makeshift torch composed of a stick, mosquito net and lard.""",
 
-"""It's the product of your genius! A homemade torch made of mosquito net, and
-a stick.  Then the tip was double-dipped in lard. This should stay lit for a
-while.""",
+"""You are special person. You made homemade torch out of mosquito net, and
+stick. Then had good time double-dipping the tip in lard. This should burn
+nicely.""",
 
 """You already have it. The lard from your homemade torch is soaking through
 your boxers."""
 )
 
 litTorch = TkItem(
-"a lit torch",
+"a lit-torch",
 
 """Your torch is fucking on fire.""",
 
-"""Your torch is fucking on fire. Just like your penis when you pee.""",
+"""Congratulations, your torch is on fucking fire. Just like how your penis
+feels when you wee.""",
 
 """You already have it. It's burning a hole in your jock strap."""
 )
+
 ##########################################
 ### Item Indexes and Location Synonyms ###
 #########################################
@@ -348,7 +359,7 @@ obj_synonyms = {
     # objects that can be taken
     'stick': 0, 'sticks': 0, 'branch': 0, 'wood': 0, 'drift-wood': 0,
     'mosquito': 1, 'net': 1,
-    'wrapped-stick': 2, 'wrapped':2,
+    'wrapped-stick': 2, 'wrapped': 2,
     'torch': 3,
     'lit-torch': 4,
 
@@ -362,16 +373,17 @@ obj_synonyms = {
     'stove': -7, 'oven': -7,
     'lard': -8, 'bucket': -8, 'container': -8, 'fat': -8, 'oil': -8, 'tub': -8,
     'water': -9, 'ocean': -9, 'sea': -9, 'salt': -9,
-    'opening': -10, 'cave': -10, 'crack': -10, 'entrance':-10
+    'opening': -10, 'cave': -10, 'crack': -10, 'cracks': -10, 'entrance': -10,
+    'hole': -10
 }
 
 obj_keys = {
     # objects that can be taken
     0: stick,
     1: net,
-    # 2: wrappedStick,
-    # 3: torch,
-    # 4: lit-torch,
+    2: wrappedStick,
+    3: torch,
+    4: litTorch,
 
     # perminant objects
     -1: bonfire,
@@ -408,8 +420,19 @@ dungeon_map = [
     [-1, -1, -1,  -1, -1, -1,  3,  1, -1, -1, -1, -1],  # 0, beachLoc
     [ 0, -1,  3,  -1,  0,  0, -1, -1, -1, -1,  2, -1],  # 1, outBungalowLoc
     [-1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,  1],  # 2, inBungalowLoc
-    [ 0, -1, -1,   1,  0,  0, -1, -1, -1, -1, -2, -1],  # 3, cliffside
+    [ 0, -1, -1,   1,  0,  0, -1, -1, -1, -1, 400,-1],  # 3, cliffsideLoc
     [-1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1,  3],  # 4, darkCaveLoc
+]
+
+# Certain areas require an item to access will use special_move function
+special_locs = {400: litTorch}
+
+
+# List of tuples of possible combinations of items
+combinations = [
+    (stick, net, wrappedStick),  # combining the stick and net = wrapped stick
+    (wrappedStick, lard, torch),# etc
+    (torch, bonfire, litTorch),
 ]
 
 # A This will help tie in the
@@ -438,7 +461,7 @@ def describe_loc(locNum):
         print(loc.longDesc)
 
 # List of inventory objects and if we seen it
-inventory_list = [net, stick]
+inventory_list = []
 seen_item = []
 
 # Function to describe an item. Also changes the description whether or not if
@@ -456,17 +479,18 @@ def describe_item(itemObj):
 def examine(args):  # examine = look
     if not args:
         describe_loc(current_loc)  # first or long description
+    elif args[0] not in obj_synonyms:
+        print("I don't know what that is. Likely, I don't understand you. See "
+              "help for details.")
     else:
+        curr = dungeon_locs[current_loc]
+        # Check and see if the item object is in the inventory or location
         # Check the player input with object synonym list to get its key
         # number
         objnum = obj_synonyms[args[0]]
         # Now take the key, and look up the item object
         itemObj = obj_keys[objnum]
-        curr = dungeon_locs[current_loc]
-        # Check and see if the item object is in the inventory or location
-        if args[0] not in obj_synonyms:
-            print("I don't know what that is.")
-        elif itemObj not in inventory_list and itemObj not in curr.tkItems and itemObj not in curr.permItems:
+        if itemObj not in inventory_list and itemObj not in curr.tkItems and itemObj not in curr.permItems:
             print("I don't see that here.")
         else:
             describe_item(itemObj)
@@ -553,8 +577,42 @@ def takeobj(arg):
             add_inven(itemObj)
 
 # Combining items!
-#def combine(arg1, arg2)
+def combine(args):
+    if len(args) < 3:
+        print("You must specify two objects and join them with an 'and' or 'with'"
+              " E.g. 'combine [item1] and [item2]'")
+    else:
+        if args[0] not in obj_synonyms:
+            print("I don't know what {} is.".format(args[0]))
+        elif args[2] not in obj_synonyms:
+            print("I don't know what {} is.".format(args[0]))
+        else:
+            itemObj1 = obj_keys[obj_synonyms[args[0]]]
+            itemObj2 = obj_keys[obj_synonyms[args[2]]]
+            print("You try to combine {} and {}. ".format(
+                itemObj1.shortDesc, itemObj2.shortDesc), end='')
+            # now check the combinations list to see if the two args can combine
+            # to give you a new item.
+            comboCheck(itemObj1, itemObj2)
 
+
+# Check if we can combine items. If both objects are part of the same tuple in
+# the combination list, then add the 3rd item or the combined item into the
+# players inventory and remove any items used up (only tkitems not perm items)
+def comboCheck(itemObj1, itemObj2):
+    global combinations, inventory_list
+    for tup in combinations:
+        if itemObj1 in tup and itemObj2 in tup:
+            inventory_list.append(tup[2])
+            if itemObj1 in inventory_list:
+                inventory_list.remove(itemObj1)
+            if itemObj2 in inventory_list:
+                inventory_list.remove(itemObj2)
+            print(tup[2].firstDesc)
+            return
+    randText = randomchoice(["That didn't work.", "It no work buddy",
+                             "That was a stupid idea.", "HAHAHAHA, no."])
+    print(randText)
 
 # def drop(args):
 #     global inventory, items
@@ -572,19 +630,30 @@ def takeobj(arg):
 #                 inventory.remove(objnum)
 #                 items[current_section].append(objnum)
 
+# function used to direct play to new locations on dungeon map.
 def move(direct):
     global current_loc
+    # goes into our dungeon_map matrix, and pulls out value of where to go next
     newsect = dungeon_map[current_loc][direct]
     if newsect == -1:
         print("You can't go that way.")
-    elif newsect == -2:
-        if lit-torch not in inventory_list:
-            print("It's too fucking dark. You shouldn't go in there.")
-        else:
-            newsect = dungeon_map[current_loc][4]
+    elif newsect > 99:
+        # send this special value to decode function
+        special_move(newsect)
     else:
         current_loc = newsect
         describe_loc(current_loc)
+
+# Help deal with special locations. It decodes direction if condition is met
+# in this case, if a specific item is in inventory.
+def special_move(newsect):
+    global inventory_list, special_locs, current_loc
+    if special_locs[newsect] in inventory_list:
+        newsect = int(newsect / 100)  # secret algorythm!
+        current_loc = newsect
+        describe_loc(current_loc)
+    else:
+        print("You can't go in there. Maybe you can find something to help.")
 
 
 def north(args):
@@ -646,14 +715,57 @@ def go(args):
         else:
             move(dirs[args[0]])
 
+def execprint(x):
+    line = x.split()
+    for c in ',:':
+        line = c.join(line).split(
+            c)  # Also, get rid of `c` that's been there first
+    if line:
+        if line[0] not in verblist:
+            print("I don't understand that.")
+        else:
+            func = verblist[line[0]]  # look for first word in verblist
+            args = line[1:]  # What follows first word are arguments
+            func(args) # use the arguments for the verb function
+
+HELP = """
+Instructions: This is a pretty rudimentary text adventure game that is limited
+in how it can interpret your input.
+
+* Movement: To move to a different location on the map, simply type a one word
+direction.
+E.g. 'north', 'n', 'southeast', 'in', etc
+
+* Actions: There are 3 primary actions you can perform. 1) 'look', 2)'take' and
+3) combine.  For the first 2 simply type "[action] [item]". No need for any
+prepositions.  For combining, you need to type
+"combine [item1] with/and [item2]"
+
+Inventory: Type "inventory" to see what you are carrying.
+
+* If you would like to quit the game, type 'quit'
+"""
+
+def _help(args):
+    print(HELP)
+
+def _quit(args):
+    global playing
+    playing = False
+    print("Quiting the game. Thanks for playing. Say 'bye'")
+
 verblist = {
     'take': take, 'get': take, 'pick': take, 'hold': take,
     # 'drop': drop, 'throw': drop, 'toss': drop,
     'look': examine, 'l': examine, 'examine': examine, 'x': examine,
     'read': examine, 'r': examine, 'describe': examine,
+    'combine': combine, 'use': combine,
     # can't use 'd' because of going down
-     'inventory': inven, 'i': inven, 'items': inven, #'die': die, 'quit': _quit,
-    #'help': _help, 'save': save, 'restore': restore, 'go': go,
+    'inventory': inven, 'i': inven, 'items': inven, #'die': die,
+    'quit': _quit,
+    'help': _help,
+    # 'save': save, 'restore': restore,
+    'go': go,
     'north': north, 'n': north, 'south': south, 's': south,
     'east': east, 'e': east, 'west': west, 'w': west,
     'northeast': northeast, 'ne': northeast, 'southeast': southeast,
@@ -666,33 +778,28 @@ verblist = {
 
 
 HEADING =(
-"""You open your eyes and see a full moon above. It's dark out and you've been
-laying on the beach for hours. Propping yourself up, your hands sink into the
-soft warm sand.""")
+"""Welcome to my first text adventure. It's a small demo I created to learn
+Python and user interactivity. Thanks for giving it a try. -Brian
 
+*** Please type 'help' for instructions and 'quit' to exit the game. ***
 
+You open your eyes and see a full moon rising above. It's dark.  You must have
+been laying on the beach for hours. Propping yourself up onto your elbows, your
+arms sink into the soft white sand. Small waves wash upon the shore as you
+stare between your feet. You see a trail of sand extending from you and fading
+into the clear water below. Your underwear is wet and uncomfortable.""")
 
-
-def execprint(x):
-    line = x.split()
-    for c in ',:':
-        line = c.join(line).split(
-            c)  # Also, get rid of `c` that's been there first
-    if line:
-        if line[0] not in verblist:
-            print("I don't understand that.")
-        else:
-            func = verblist[line[0]]  # look for first word in verblist
-            args = line[1:]  # What follows first word are arguments
-            func(args)
 
 #############################
 ######  Execute Game ########
+playing = True
 
 # Function to run the game
 def run_game():
     print(HEADING)
-    while True:
+    global playing
+
+    while playing:
         reply = input('\n>').lower().split(';') or ['']
         first = True
         for i in reply:
